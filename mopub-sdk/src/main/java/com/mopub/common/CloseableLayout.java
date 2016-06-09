@@ -256,7 +256,7 @@ public class CloseableLayout extends FrameLayout {
                 && y < mCloseRegionBounds.bottom + slop;
     }
 
-    private void performClose() {
+    public void performClose() {
         playSoundEffect(SoundEffectConstants.CLICK);
         if (mOnCloseListener != null) {
             mOnCloseListener.onClose();

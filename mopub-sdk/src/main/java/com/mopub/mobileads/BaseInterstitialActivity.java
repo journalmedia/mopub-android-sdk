@@ -13,6 +13,7 @@ import com.mopub.common.AdReport;
 import com.mopub.common.CloseableLayout;
 import com.mopub.common.CloseableLayout.OnCloseListener;
 import com.mopub.common.DataKeys;
+import com.mopub.countdown.CountDownTimerView;
 
 import static com.mopub.common.DataKeys.BROADCAST_IDENTIFIER_KEY;
 
@@ -26,6 +27,7 @@ abstract class BaseInterstitialActivity extends Activity {
         WEB_VIEW_DID_CLOSE("webviewDidClose();");
 
         private String mJavascript;
+
         private JavaScriptWebViewCallbacks(String javascript) {
             mJavascript = javascript;
         }
@@ -40,6 +42,7 @@ abstract class BaseInterstitialActivity extends Activity {
     }
 
     private CloseableLayout mCloseableLayout;
+    private CountDownTimerView countDownTimerView;
     private Long mBroadcastIdentifier;
 
     public abstract View getAdView();
@@ -64,9 +67,25 @@ abstract class BaseInterstitialActivity extends Activity {
                 finish();
             }
         });
-        mCloseableLayout.addView(adView,
-                new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT));
+        mCloseableLayout.addView(adView, new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT));
+
+        countDownTimerView = new CountDownTimerView(this);
+        mCloseableLayout.addView(countDownTimerView, new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT));
+
         setContentView(mCloseableLayout);
+        countDownTimerView.setTime(10000);
+        countDownTimerView.startCountDown();
+        countDownTimerView.setOnTimerListener(new CountDownTimerView.TimerListener() {
+            @Override
+            public void onTick(long millisUntilFinished) {
+
+            }
+
+            @Override
+            public void onFinish() {
+                mCloseableLayout.performClose();
+            }
+        });
     }
 
     @Override
@@ -81,10 +100,12 @@ abstract class BaseInterstitialActivity extends Activity {
 
     protected void showInterstitialCloseButton() {
         mCloseableLayout.setCloseVisible(true);
+        countDownTimerView.setVisibility(View.VISIBLE);
     }
 
     protected void hideInterstitialCloseButton() {
         mCloseableLayout.setCloseVisible(false);
+        countDownTimerView.setVisibility(View.GONE);
     }
 
     protected static Long getBroadcastIdentifierFromIntent(Intent intent) {
