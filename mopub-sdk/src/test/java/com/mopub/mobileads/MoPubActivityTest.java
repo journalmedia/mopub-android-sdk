@@ -54,12 +54,14 @@ import static org.mockito.Mockito.when;
 public class MoPubActivityTest {
     private static final String EXPECTED_HTML_DATA = "htmlData";
     private static final boolean EXPECTED_IS_SCROLLABLE = true;
-    @Mock private AdReport mockAdReport;
+    @Mock
+    private AdReport mockAdReport;
     private static final String EXPECTED_REDIRECT_URL = "redirectUrl";
     private static final String EXPECTED_CLICKTHROUGH_URL = "https://expected_url";
     private static final CreativeOrientation EXPECTED_ORIENTATION = CreativeOrientation.PORTRAIT;
 
-    @Mock private BroadcastReceiver broadcastReceiver;
+    @Mock
+    private BroadcastReceiver broadcastReceiver;
     private long testBroadcastIdentifier = 2222;
 
     private HtmlInterstitialWebView htmlInterstitialWebView;
@@ -144,7 +146,7 @@ public class MoPubActivityTest {
     public void onCreate_shouldSetContentView() throws Exception {
         // onCreate is called above in #setup
 
-        assertThat(getContentView().getChildCount()).isEqualTo(1);
+        assertThat(getContentView().getChildCount()).isEqualTo(2);
     }
 
     @Test
