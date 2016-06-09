@@ -2,8 +2,10 @@ package com.mopub.mobileads;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.view.Gravity;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -70,7 +72,8 @@ abstract class BaseInterstitialActivity extends Activity {
         mCloseableLayout.addView(adView, new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT));
 
         countDownTimerView = new CountDownTimerView(this);
-        mCloseableLayout.addView(countDownTimerView, new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT));
+        LayoutParams layoutParams = new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);
+        mCloseableLayout.addView(countDownTimerView, layoutParams);
 
         setContentView(mCloseableLayout);
         countDownTimerView.setTime(10000);

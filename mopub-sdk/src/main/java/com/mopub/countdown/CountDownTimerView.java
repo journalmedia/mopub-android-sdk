@@ -3,13 +3,18 @@ package com.mopub.countdown;
 import android.content.Context;
 import android.os.CountDownTimer;
 import android.util.AttributeSet;
+import android.view.Gravity;
+import android.view.LayoutInflater;
+import android.widget.LinearLayout;
 import android.widget.TextView;
+
+import com.mopub.mobileads.R;
 
 /**
  * Created by conorjsmith on 02/06/2016.
  */
 
-public class CountDownTimerView extends TextView {
+public class CountDownTimerView extends LinearLayout {
 
     public interface TimerListener {
         void onTick(long millisUntilFinished);
@@ -17,15 +22,12 @@ public class CountDownTimerView extends TextView {
         void onFinish();
     }
 
-    private Context mContext;
-
-    private CharSequence mPrefixText;
-    private CharSequence mSuffixText;
-
     private long mHours = 0;
     private long mMinutes = 0;
     private long mSeconds = 0;
     private long mMilliSeconds = 0;
+
+    private TextView textViewCountdown;
 
     private TimerListener mListener;
 
@@ -40,19 +42,18 @@ public class CountDownTimerView extends TextView {
     }
 
     public CountDownTimerView(Context context, AttributeSet attrs) {
-        this(context, attrs, 0);
-    }
+        super(context, attrs);
+        setOrientation(LinearLayout.HORIZONTAL);
+        setGravity(Gravity.CENTER_HORIZONTAL);
 
-    public CountDownTimerView(Context context, AttributeSet attrs, int defStyleAttr) {
-        super(context, attrs, defStyleAttr);
-        mContext = context;
+        LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        inflater.inflate(R.layout.view_mopub_custom_countdown, this, true);
 
-        init();
-    }
+        textViewCountdown = (TextView) findViewById(R.id.textview_countdown);
 
-    private void init() {
         displayText();
     }
+
 
     private void initCounter() {
         mCountDownTimer = new CountDownTimer(mMilliSeconds, 1000) {
@@ -109,7 +110,7 @@ public class CountDownTimerView extends TextView {
         buffer.append(getTwoDigitNumber(mSeconds));
         buffer.append(" seconds)");
 
-        setText(buffer);
+        textViewCountdown.setText(buffer);
     }
 
     private String getTwoDigitNumber(long number) {
