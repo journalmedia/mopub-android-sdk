@@ -22,7 +22,7 @@ import static com.mopub.common.DataKeys.BROADCAST_IDENTIFIER_KEY;
 abstract class BaseInterstitialActivity extends Activity {
     protected AdReport mAdReport;
 
-    private static final long COUNT_DOWN_TIME_SECONDS = TimeUnit.MILLISECONDS.toSeconds(5);
+    private static final long COUNT_DOWN_TIME_SECONDS = TimeUnit.SECONDS.toMillis(5);
 
     enum JavaScriptWebViewCallbacks {
         // The ad server appends these functions to the MRAID javascript to help with third party
