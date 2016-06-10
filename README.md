@@ -12,7 +12,7 @@ If the build fails, check you are using JDK7. To force gradle to use JDK7 run:
 
     `./gradlew -Dorg.gradle.java.home=/Library/Java/JavaVirtualMachines/jdk1.7._version_.jdk/Contents/Home mopub-sdk:build`
 
-2. Copy the generated .aar from `build/outputs/aar/mopub-sdk-release.aar` into into `thejournal-library-project/libs`
+2. Copy the generated .aar from `build/outputs/aar/mopub-sdk-release.aar` into `thejournal-library-project/libs`
 
 
 Updating the MoPub library:
