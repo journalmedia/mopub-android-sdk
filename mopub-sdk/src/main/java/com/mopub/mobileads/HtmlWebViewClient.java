@@ -2,13 +2,14 @@ package com.mopub.mobileads;
 
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
-import com.mopub.common.UrlHandler;
 import com.mopub.common.UrlAction;
+import com.mopub.common.UrlHandler;
 import com.mopub.common.logging.MoPubLog;
 import com.mopub.common.util.Intents;
 import com.mopub.exceptions.IntentNotResolvableException;
@@ -40,8 +41,8 @@ class HtmlWebViewClient extends WebViewClient {
     private final String mRedirectUrl;
 
     HtmlWebViewClient(HtmlWebViewListener htmlWebViewListener,
-            BaseHtmlWebView htmlWebView, String clickthrough,
-            String redirect, String dspCreativeId) {
+                      BaseHtmlWebView htmlWebView, String clickthrough,
+                      String redirect, String dspCreativeId) {
         mHtmlWebViewListener = htmlWebViewListener;
         mHtmlWebView = htmlWebView;
         mClickthroughUrl = clickthrough;
@@ -58,7 +59,7 @@ class HtmlWebViewClient extends WebViewClient {
                 .withResultActions(new UrlHandler.ResultActions() {
                     @Override
                     public void urlHandlingSucceeded(@NonNull String url,
-                            @NonNull UrlAction urlAction) {
+                                                     @NonNull UrlAction urlAction) {
                         if (mHtmlWebView.wasClicked()) {
                             mHtmlWebViewListener.onClicked();
                             mHtmlWebView.onResetUserClick();
@@ -67,7 +68,7 @@ class HtmlWebViewClient extends WebViewClient {
 
                     @Override
                     public void urlHandlingFailed(@NonNull String url,
-                            @NonNull UrlAction lastFailedUrlAction) {
+                                                  @NonNull UrlAction lastFailedUrlAction) {
                     }
                 })
                 .withMoPubSchemeListener(new UrlHandler.MoPubSchemeListener() {
@@ -107,4 +108,18 @@ class HtmlWebViewClient extends WebViewClient {
         }
     }
 
+    @Override
+    public void onPageFinished(final WebView view, String url) {
+        view.setBackgroundColor(Color.parseColor("#212121"));
+        /*
+        We intercept the html response here and use javascript to traverse the dom tree until
+        a img tag is found.
+        If only one image is found and the image size is greater than 100,000 pixels, we clear the height / width attributes & calculate
+        the image aspect ratio and the devices aspect ratio. We then resize the image so it fits inside the device screen while maintaining
+        its aspect ratio.
+        The images are usually 320 x 480 (3:2) and don't fill the whole screen (devices are typically 16:9).
+         */
+
+//        view.loadUrl("javascript:function setImageSize(){document.body.style.margin=\"0px\";var e=document.getElementsByTagName(\"img\");if(e){var t=e[0];var n=t.width*t.height;if(n>1e5){var r=t.width/t.height;var i=window.innerWidth/window.innerHeight;var s;var o;if(i==r){s=window.innerHeight;o=window.innerWidth}else if(i>r){s=window.innerHeight;o=t.width*(window.innerHeight/t.height)}else{s=t.height*(window.innerWidth/t.width);o=window.innerWidth}t.style.height=s+\"px\";t.style.width=o+\"px\"}}}setImageSize();");
+    }
 }
