@@ -1,16 +1,19 @@
 # Distilled MoPub Integration
 
-This is a fork of the [MoPub Android SDK](https://github.com/mopub/mopub-android-sdk). It includes customisations for a countdown timer and some minor UI changes.
+This is a fork of the [MoPub Android SDK](https://github.com/mopub/mopub-android-sdk). It includes a countdown timer and some minor UI tweaks.
 
-To build a AAR to include in the Distilled app's:
+Adding as Compiled .aar:
 
 1. CD into the root folder and run:
 
     `./gradlew mopub-sdk:build`
 
-You must use JDK7 with gradle for the build to be successful. To force JDK7 run:
+If the build fails, check you are using JDK7. To force gradle to use JDK7 run:
 
-    ` ./gradlew -Dorg.gradle.java.home=/Library/Java/JavaVirtualMachines/jdk1.7._version_.jdk/Contents/Home mopub-sdk:build`
+    `./gradlew -Dorg.gradle.java.home=/Library/Java/JavaVirtualMachines/jdk1.7._version_.jdk/Contents/Home mopub-sdk:build`
+
+2. Copy the generated .aar from `build/outputs/aar/mopub-sdk-release.aar` into into `thejournal-library-project/libs`
+
 
 Updating the MoPub library:
 
